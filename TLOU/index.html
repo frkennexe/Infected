@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infected</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="cursor-glow"></div>
+<div class="navbar">
+  <h2>INFECTED</h2>
+  <div class="nav-links">
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('updates')">Updates</button>
+    <button onclick="showPage('status')">Status</button>
+    <button onclick="showPage('community')">Community</button>
+    <button onclick="showPage('giveaway')">Giveaway</button>
+  </div>
+</div>
+<div id="navbar-user-status" class="navbar-user-status"></div>
+<div id="home" class="page active">
+  <div class="home-hero">
+    <h1>Welcome to Infected</h1>
+    <p>The official survival horror experience on Roblox, inspired by The Last of Us.</p>
+    <p>Navigate using the menu above to explore updates, check game status, join the community, or enter giveaways.</p>
+    <div class="home-actions">
+      <button onclick="showPage('faq')" class="home-link-btn">FAQs</button>
+      <span class="home-separator">||</span>
+      <button onclick="showPage('credits')" class="home-link-btn">Credits</button>
+    </div>
+  </div>
+</div>
+<div id="updates" class="page">
+  <h2>Game Updates</h2>
+  <div id="updates-list" class="updates-list"></div>
+</div>
+<div id="status" class="page">
+  <h2>Game Status</h2>
+  <div id="status-card" class="status-card"></div>
+</div>
+<div id="community" class="page">
+  <h2>Community Hub</h2>
+  <div class="community-hub-app">
+    <div class="comm-sidebar">
+      <div class="comm-sidebar-section">
+        <h3>Channels</h3>
+        <button class="comm-channel active" onclick="selectCommunityChannel('global-chat')"># global-chat</button>
+        <button class="comm-channel" onclick="selectCommunityChannel('groups-lounge')"># groups-lounge</button>
+        <button class="comm-channel" onclick="selectCommunityChannel('voice-chat')"># voice-chat</button>
+        <button class="comm-channel" onclick="selectCommunityChannel('art-cosplay')"># art-cosplay</button>
+        <button class="comm-channel" onclick="selectCommunityChannel('announcements')"># announcements</button>
+      </div>
+      <div class="comm-sidebar-section">
+        <h3>Groups</h3>
+        <div id="community-group-list"></div>
+        <div class="comm-group-actions">
+          <input id="community-group-name" type="text" placeholder="Group name" maxlength="30">
+          <div style="display:flex;gap:6px;margin-top:4px">
+            <button onclick="createCommunityGroup()" style="flex:1;padding:7px;font-size:12px">Create</button>
+            <button onclick="joinCommunityGroup()" style="flex:1;padding:7px;font-size:12px">Join</button>
+          </div>
+        </div>
+      </div>
+      <div class="comm-sidebar-section">
+        <h3>Voice</h3>
+        <div id="community-voice-status" class="voice-status">Disconnected</div>
+        <div id="voice-users-list" style="margin:6px 0;font-size:12px;color:#888"></div>
+        <button onclick="toggleVoiceChannel()" style="padding:7px;font-size:12px;width:100%">Join / Leave</button>
+      </div>
+    </div>
+    <div class="comm-main">
+      <div class="comm-header">
+        <div>
+          <h3 id="community-channel-title">global-chat</h3>
+          <p id="community-channel-topic">Survival horror community conversation.</p>
+        </div>
+        <span id="community-channel-meta" class="comm-channel-meta"></span>
+      </div>
+      <div id="community-messages" class="comm-messages"></div>
+      <div id="typing-indicator" class="typing-indicator"></div>
+      <div id="mute-notice" class="mute-notice hidden"></div>
+      <div class="comm-input-row">
+        <label class="attach-btn" for="community-file-input">+</label>
+        <input id="community-file-input" type="file" onchange="handleCommunityAttachment(event)" multiple style="display:none">
+        <input id="community-message-input" type="text" placeholder="Message..." maxlength="500" oninput="communityTyping()" onkeydown="handleChatKey(event)">
+        <button class="send-button" id="send-button" onclick="sendCommunityMessage()">Send</button>
+      </div>
+      <div id="community-attachment-preview" class="attachment-preview"></div>
+    </div>
+    <div class="comm-right">
+      <div class="comm-sidebar-section">
+        <h3>Online Now</h3>
+        <div id="community-member-list" class="community-member-list"></div>
+      </div>
+      <div class="comm-sidebar-section">
+        <h3>Announcements</h3>
+        <div id="community-announcements"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="faq" class="page">
+  <h2>FAQs</h2>
+  <div id="faq-list">
+    <div class="update"><h3>What is Infected?</h3><p>Infected is a survival horror Roblox experience inspired by THE LAST OF US.</p></div>
+
+    <div class="update"><h3>Is the game free?</h3><p>Yes, the game is free to play. Optional cosmetics may be added later.</p></div>
+  </div>
+  <div id="faq-dynamic-list"></div>
+  <button class="faq-button" onclick="showPage('home')" style="margin-top:18px">Back to Home</button>
+</div>
+<div id="giveaway" class="page">
+  <h2>Giveaways</h2>
+  <div id="giveaway-list" class="giveaway-list"></div>
+</div>
+<div id="credits" class="page">
+  <div class="credits-box">
+    <div class="credits-title">INFECTED</div>
+    <div class="credits-divider"></div>
+    <div class="credits-row"><span class="credits-label">Managed By: </span><span class="credits-value">NaughtyGoat</span></div>
+    <div class="credits-row"><span class="credits-label">Version: </span><span class="credits-value"><span id="credits-version"></span></span></div>
+    <div class="credits-divider"></div>
+    <div class="credits-copy">&#169; NaughtyGoat — All Rights Reserved 2026</div>
+  </div>
+</div>
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header"><button class="sidebar-close" onclick="toggleSidebar()">&#x2715;</button></div>
+  <div class="sidebar-content">
+    <div id="user-role-display"></div>
+    <div class="sidebar-section">
+      <h3>Account</h3>
+      <div id="login-form" class="login-section">
+        <input type="text" id="username-input" placeholder="Username" maxlength="20">
+        <input type="password" id="password-input" placeholder="Password" maxlength="20">
+        <button onclick="handleLogin()">Login</button>
+      </div>
+      <div id="user-profile" class="user-profile hidden">
+        <p>Welcome, <span id="current-user"></span></p>
+        <button onclick="handleLogout()">Logout</button>
+        <button onclick="showPasswordChange()">Change Password</button>
+        <div id="password-change" class="hidden">
+          <input type="password" id="old-password" placeholder="Old Password" maxlength="20">
+          <input type="password" id="new-password" placeholder="New Password" maxlength="20">
+          <button onclick="handlePasswordChange()">Update</button>
+          <button onclick="hidePasswordChange()">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <div id="moderator-panel" class="sidebar-section moderator-panel hidden">
+      <h3>Moderator Panel</h3>
+      <div class="moderator-actions-list">
+        <button onclick="openModModal('update')">+ Add Update</button>
+        <button onclick="openModModal('announcement')">&#128226; Announcement</button>
+        <button onclick="openModModal('status')">&#128308; Game Status</button>
+        <button onclick="openModModal('faq')">&#10067; Manage FAQs</button>
+        <button onclick="openModModal('giveaway')">&#127881; Create Giveaway</button>
+        <button onclick="openModModal('emergency')">&#9888; Emergency Alert</button>
+        <button onclick="openModModal('maintenance')">&#128295; Maintenance Notice</button>
+        <button onclick="openModModal('clearchat')">&#128465; Clear Chat</button>
+        <button onclick="openModModal('sysmsg')">&#128172; System Message</button>
+        <button onclick="openModModal('deletegroup')">&#128465; Delete Group</button>
+        <button onclick="openPunishPanel()">&#128296; Punish User</button>
+      </div>
+    </div>
+    <div class="sidebar-section settings-section">
+      <h3>Settings</h3>
+      <button onclick="toggleTheme()">Toggle Theme</button>
+      <button onclick="toggleSidebar()">Close Sidebar</button>
+    </div>
+    <div class="sidebar-section logout-section">
+      <h3>Sign Out</h3>
+      <button onclick="handleLogout()">Logout</button>
+    </div>
+    <div class="sidebar-section">
+      <h3>About</h3>
+      <p>Developer: Kenn</p>
+      <p>Version: <span id="sidebar-version"></span></p>
+      <p>Infected — TLOU INSPIRED GAME</p>
+    </div>
+    <div class="sidebar-section">
+      <button onclick="toggleAdminPanel()" id="admin-toggle-btn" style="display:none">Admin Access</button>
+    </div>
+  </div>
+</div>
+<div class="sidebar-toggle" id="sidebar-toggle-btn" onclick="toggleSidebar()">&#9776;</div>
+<div id="first-time-modal" class="first-time-modal">
+  <div class="first-time-content">
+    <h2>Welcome to Infected</h2>
+    <p>Choose your entry path</p>
+    <div class="first-time-options">
+      <button onclick="loginAccountMode()">Login</button>
+      <button onclick="createAccountMode()">Create Account</button>
+      <button onclick="guestMode()">Continue as Guest</button>
+    </div>
+  </div>
+</div>
+<div id="login-account-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <h2>Login</h2>
+    <div class="create-form">
+      <input type="text" id="login-username" placeholder="Username" maxlength="20">
+      <input type="password" id="login-password" placeholder="Password" maxlength="20">
+      <button onclick="submitLogin()">Login</button>
+      <button onclick="loginBackToFirstTime()">Back</button>
+    </div>
+  </div>
+</div>
+<div id="create-account-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <h2>Create Account</h2>
+    <div class="create-form">
+      <input type="text" id="new-username" placeholder="Username" maxlength="20">
+      <input type="password" id="new-password-create" placeholder="Password" maxlength="20">
+      <input type="password" id="new-password-confirm" placeholder="Confirm password" maxlength="20">
+      <button onclick="submitNewAccount()">Create</button>
+      <button onclick="createBackToFirstTime()">Back</button>
+    </div>
+  </div>
+</div>
+<div id="moderator-upgrade-modal" class="modal-overlay hidden">
+  <div class="modal-box mod-box">
+    <h2>Moderator Access</h2>
+    <p style="color:#ccc">Enter the moderator password</p>
+    <div class="mod-form">
+      <input type="password" id="moderator-password" placeholder="Password" maxlength="50">
+      <button onclick="submitModeratorPassword()">Unlock</button>
+      <button onclick="closeModerator()">Cancel</button>
+    </div>
+  </div>
+</div>
+<div id="mod-action-modal" class="modal-overlay hidden">
+  <div class="modal-box wide-modal" id="mod-action-content"></div>
+</div>
+<div id="punish-modal" class="modal-overlay hidden">
+  <div class="modal-box wide-modal punish-modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h2 style="color:#f00;margin:0;font-size:16px">Punish User</h2>
+      <button onclick="closePunishPanel()" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;padding:0;text-shadow:none">&#x2715;</button>
+    </div>
+    <input id="punish-search" type="text" placeholder="Search member..." style="width:100%;background:#0d0d0d;border:1px solid rgba(255,0,0,0.3);color:#fff;padding:8px 10px;border-radius:6px;font-size:12px;margin-bottom:8px" oninput="renderPunishMemberList(this.value)">
+    <div id="punish-member-list" class="punish-member-list"></div>
+    <div id="punish-selected" data-user="" style="margin-top:10px;padding:8px 10px;background:rgba(255,0,0,0.07);border:1px solid rgba(255,0,0,0.2);border-radius:6px;font-size:12px;color:#aaa">
+      Selected: <span id="punish-selected-user" style="color:#f88">No user selected</span>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+      <input id="punish-duration" type="number" placeholder="Seconds (e.g. 300)" min="1" style="flex:1;background:#0d0d0d;border:1px solid rgba(255,0,0,0.3);color:#fff;padding:8px 10px;border-radius:6px;font-size:12px">
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button onclick="confirmPunishMute()" style="flex:1;background:#900;color:#fff;border:none;padding:9px;border-radius:6px;font-size:12px;cursor:pointer;font-family:'Courier New',monospace">Mute</button>
+      <button onclick="confirmPunishUnmute()" style="flex:1;background:rgba(0,200,0,0.15);color:#0f0;border:1px solid rgba(0,200,0,0.3);padding:9px;border-radius:6px;font-size:12px;cursor:pointer;font-family:'Courier New',monospace">Unmute</button>
+      <button onclick="closePunishPanel()" class="cancel-btn" style="flex:1;padding:9px;font-size:12px">Cancel</button>
+    </div>
+  </div>
+</div>
+<div id="admin-panel" class="admin-panel hidden">
+  <div class="admin-header">
+    <h2>Admin Panel</h2>
+    <button class="admin-close" onclick="closeAdminPanel()">&#x2715;</button>
+  </div>
+  <div class="admin-content">
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchAdminTab('web-fixer',event)">Web Fixer</button>
+      <button class="admin-tab" onclick="switchAdminTab('tweaks',event)">Tweaks</button>
+      <button class="admin-tab" onclick="switchAdminTab('moderation',event)">Moderation</button>
+    </div>
+    <div id="web-fixer" class="admin-tab-content active">
+      <h3>Web Fixer</h3>
+      <textarea id="content-editor" placeholder="Edit content here..." rows="8"></textarea>
+      <button onclick="saveContent()">Save</button>
+      <button onclick="clearContent()">Clear</button>
+      <div id="saved-content" class="saved-content"></div>
+    </div>
+    <div id="tweaks" class="admin-tab-content">
+      <h3>Tweaks</h3>
+      <div class="tweak-option"><label><input type="checkbox" id="dark-mode"> Enhanced Dark Mode</label></div>
+      <div class="tweak-option"><label><input type="checkbox" id="glow-effect"> Stronger Glow</label></div>
+      <div class="tweak-option"><label><input type="checkbox" id="animation-toggle"> Animations</label></div>
+      <button onclick="applyTweaks()">Apply</button>
+    </div>
+    <div id="moderation" class="admin-tab-content">
+      <h3>Moderation</h3>
+      <div id="reports-list" class="reports-list"><p>No reports yet</p></div>
+      <div class="moderation-action">
+        <input type="text" id="ban-username" placeholder="Username to ban">
+        <button onclick="banUser()">Ban</button>
+      </div>
+      <div id="banned-users" class="banned-users"><h4>Banned Users</h4><ul id="ban-list"></ul></div>
+    </div>
+  </div>
+</div>
+<div id="notification-popups" class="notification-popups"></div>
+<div id="user-popup" class="user-popup hidden">
+  <div class="user-popup-card">
+    <button class="popup-close" onclick="hideUserPopup()">&#x2715;</button>
+    <div id="user-popup-content"></div>
+  </div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
