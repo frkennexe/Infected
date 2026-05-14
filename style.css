@@ -211,8 +211,8 @@ input::placeholder,textarea::placeholder{color:#666}
 .badge-guest{background:rgba(255,255,255,0.06);color:#777;border:1px solid rgba(255,255,255,0.12)}
 .badge-user{display:none}
 .badge-system{background:rgba(255,200,50,0.1);color:#ffc;border:1px solid rgba(255,200,50,0.2)}
-.msg-time{font-size:10px;color:#444}
-.msg-time em{font-style:normal;color:#666}
+.msg-time{font-size:10px;color:#888}
+.msg-time em{font-style:normal;color:#777}
 .comm-message-text{color:#d8d8d8;line-height:1.5;white-space:pre-wrap;word-break:break-word;font-size:13px;text-align:left;margin:0}
 .comm-message-text.deleted-text{color:#555;font-style:italic;font-size:12px}
 .emergency-text{color:#f77}
