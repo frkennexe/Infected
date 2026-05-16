@@ -16,7 +16,7 @@ var updatesData=JSON.parse(localStorage.getItem('updatesData'))||[{id:1746000000
 var statusData=JSON.parse(localStorage.getItem('statusData'))||{game:'online',dev:'offline',version:'1.1.1',note:'Beta testing active',announcement:'',timestamp:Date.now()};if(statusData&&typeof statusData.timestamp==='string'){statusData.timestamp=Date.now();localStorage.setItem('statusData',JSON.stringify(statusData))}
 var userMeta=JSON.parse(localStorage.getItem('userMeta'))||{};
 var communityData={channels:{'global-chat':[],'groups-lounge':[],'voice-chat':[],'art-cosplay':[],'announcements':[]},groups:{}};
-var faqData=JSON.parse(localStorage.getItem('faqData'))||[];
+var faqData=JSON.parse(localStorage.getItem('faqData'))||[{id:1746000000001,question:'What is Infected?',answer:'Infected is a survival horror Roblox experience inspired by THE LAST OF US.'},{id:1746000000002,question:'When is beta release?',answer:'Beta is scheduled for May 7–15, 2026, with ongoing updates after launch.'},{id:1746000000003,question:'Is the game free?',answer:'Yes, the game is free to play. Optional cosmetics may be added later.'}];
 var giveawayData=JSON.parse(localStorage.getItem('giveawayData'))||[];
 var communityState={currentChannel:'global-chat',currentGroup:null,voiceJoined:false,voiceUsers:[],pendingAttachments:[],typingUsers:{},typingTimeout:null};
 var communityEmojis=['❤️','🔥','💀','👍'];
