@@ -33,9 +33,9 @@ function buildMsg(text,attachments){return{id:Date.now(),author:userStorage.curr
 function buildSysMsg(text,annType){return{id:Date.now(),author:'naughtygoat',role:'system',status:'online',text:text,annType:annType||'',attachments:[],timestamp:Date.now(),edited:false,deleted:false,replies:[],reactions:{}}}
 function saveCommunityData(){if(fbReady)return;localStorage.setItem('communityData',JSON.stringify(communityData))}
 function saveUserMeta(){localStorage.setItem('userMeta',JSON.stringify(userMeta))}
-function saveUpdates(){localStorage.setItem('updatesData',JSON.stringify(updatesData))}
-function saveStatus(){localStorage.setItem('statusData',JSON.stringify(statusData))}
-function saveFaqs(){localStorage.setItem('faqData',JSON.stringify(faqData))}
+function saveUpdates(){localStorage.setItem('updatesData',JSON.stringify(updatesData));if(fbReady){db.ref('updates').set(updatesData)}}
+function saveStatus(){localStorage.setItem('statusData',JSON.stringify(statusData));if(fbReady){db.ref('status').set(statusData)}}
+function saveFaqs(){localStorage.setItem('faqData',JSON.stringify(faqData));if(fbReady){db.ref('faqs').set(faqData)}}
 function saveGiveaways(){localStorage.setItem('giveawayData',JSON.stringify(giveawayData))}
 function saveMutes(){if(fbReady){db.ref('mutes').set(muteData||{})}else{localStorage.setItem('muteData',JSON.stringify(muteData))}}
 function loadMutes(){if(fbReady){db.ref('mutes').on('value',function(snap){muteData=snap.val()||{};checkMyMuteStatus()})}else{try{muteData=JSON.parse(localStorage.getItem('muteData')||'{}')}catch(e){muteData={}}checkMyMuteStatus()}}
@@ -189,6 +189,7 @@ renderFaqs();
 renderGiveaways();
 loadMutes();
 startMuteCountdown();
+if(fbReady){db.ref('faqs').on('value',function(snap){var val=snap.val();if(val&&Array.isArray(val)){faqData=val;localStorage.setItem('faqData',JSON.stringify(faqData));renderFaqs()}});db.ref('updates').on('value',function(snap){var val=snap.val();if(val&&Array.isArray(val)){updatesData=val;localStorage.setItem('updatesData',JSON.stringify(updatesData));renderUpdates()}});db.ref('status').on('value',function(snap){var val=snap.val();if(val&&typeof val==='object'){statusData=val;if(typeof statusData.timestamp==='string')statusData.timestamp=Date.now();localStorage.setItem('statusData',JSON.stringify(statusData));renderStatusCard();updateVersionDisplay()}})}
 if(fbReady){
 bindAllFirebaseChannels();
 bindFirebaseOnline();
