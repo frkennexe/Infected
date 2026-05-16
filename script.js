@@ -186,10 +186,11 @@ initializeUserDetection();
 renderUpdates();
 renderStatusCard();
 renderFaqs();
+if(fbReady){db.ref('faqs').once('value',function(snap){if(!snap.val()){db.ref('faqs').set(faqData)}});db.ref('updates').once('value',function(snap){if(!snap.val()){db.ref('updates').set(updatesData)}});db.ref('status').once('value',function(snap){if(!snap.val()){db.ref('status').set(statusData)}});}
 renderGiveaways();
 loadMutes();
 startMuteCountdown();
-if(fbReady){db.ref('faqs').on('value',function(snap){var val=snap.val();if(val&&Array.isArray(val)){faqData=val;localStorage.setItem('faqData',JSON.stringify(faqData));renderFaqs()}});db.ref('updates').on('value',function(snap){var val=snap.val();if(val&&Array.isArray(val)){updatesData=val;localStorage.setItem('updatesData',JSON.stringify(updatesData));renderUpdates()}});db.ref('status').on('value',function(snap){var val=snap.val();if(val&&typeof val==='object'){statusData=val;if(typeof statusData.timestamp==='string')statusData.timestamp=Date.now();localStorage.setItem('statusData',JSON.stringify(statusData));renderStatusCard();updateVersionDisplay()}})}
+if(fbReady){db.ref('faqs').on('value',function(snap){var val=snap.val();if(val&&Array.isArray(val)&&val.length>0){faqData=val;localStorage.setItem('faqData',JSON.stringify(faqData))}else if(!val){faqData=[];localStorage.setItem('faqData',JSON.stringify(faqData))}renderFaqs()});db.ref('updates').on('value',function(snap){var val=snap.val();if(val&&Array.isArray(val)&&val.length>0){updatesData=val;localStorage.setItem('updatesData',JSON.stringify(updatesData))}else if(!val){updatesData=[];localStorage.setItem('updatesData',JSON.stringify(updatesData))}renderUpdates()});db.ref('status').on('value',function(snap){var val=snap.val();if(val&&typeof val==='object'){statusData=val;if(typeof statusData.timestamp==='string')statusData.timestamp=Date.now();localStorage.setItem('statusData',JSON.stringify(statusData));renderStatusCard();updateVersionDisplay()}})}
 if(fbReady){
 bindAllFirebaseChannels();
 bindFirebaseOnline();
