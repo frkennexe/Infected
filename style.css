@@ -217,7 +217,7 @@ input::placeholder,textarea::placeholder{color:#666}
 .comm-message-text.deleted-text{color:#555;font-style:italic;font-size:12px}
 .emergency-text{color:#f77}
 .maint-text{color:#fb7}
-.msg-img{max-width:240px;max-height:160px;border-radius:7px;margin-top:5px;object-fit:cover;display:block}
+.msg-img{max-width:320px;max-height:220px;border-radius:7px;margin-top:5px;object-fit:cover;display:block;cursor:pointer;transition:opacity 0.15s}.msg-img:hover{opacity:0.85}
 .msg-file{color:#7af;font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-top:3px}
 .msg-file:hover{text-decoration:underline}
 .comm-message-actions{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px;opacity:0;transition:opacity 0.12s}
@@ -308,3 +308,7 @@ input::placeholder,textarea::placeholder{color:#666}
 .credits-label{color:#888}
 .credits-value{color:#ccc}
 .credits-copy{color:#666;font-size:11px;margin-top:16px}
+
+#img-lightbox{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out;backdrop-filter:blur(4px)}
+#img-lightbox img{max-width:90vw;max-height:90vh;border-radius:10px;object-fit:contain;box-shadow:0 0 40px rgba(0,0,0,0.8)}
+#img-lightbox.hidden{display:none}
