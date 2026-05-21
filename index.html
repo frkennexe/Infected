@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Infected</title>
-<!-- main page lol -->
+
 <link rel="stylesheet" href="style.css">
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 <audio id="site-music" loop preload="auto">
@@ -213,6 +214,7 @@
       <input type="text" id="new-username" placeholder="Username" maxlength=20>
       <input type="password" id="new-password-create" placeholder="Password" maxlength=20>
       <input type="password" id="new-password-confirm" placeholder="Confirm password" maxlength=20>
+      <div class="g-recaptcha" data-sitekey="6LeTypUsAAAAHu4A_27iU8lpH7X5oCG_H-SGSLs" data-theme="dark" style="margin:6px 0"></div>
       <button onclick="submitNewAccount()">Create</button>
       <button onclick="createBackToFirstTime()">Back</button>
     </div>
